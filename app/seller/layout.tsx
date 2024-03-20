@@ -12,9 +12,7 @@ export default async function DashboardLayout({
 }>) {
   return (
     <html lang='en' className='scroll-smooth'>
-      <LayoutComponent>
-        <Suspense>{children}</Suspense>
-      </LayoutComponent>
+      <LayoutComponent>{children}</LayoutComponent>
     </html>
   );
 }

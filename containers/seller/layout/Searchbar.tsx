@@ -16,16 +16,19 @@ import { LogOut } from '@/lib/utils';
 import React from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Link from 'next/link';
+import DropdownUser from './dropdown-user';
 
-export default function Searchbar() {
+export default function Searchbar(props: any) {
   const router = useRouter();
   const handleSignOut = async () => LogOut(router);
   useHotkeys('shift+q', () => handleSignOut());
+
   return (
     <header className='border-b h-12 bg-gray-200/40'>
       <nav className='flex justify-between items-center container h-12 '>
         <ToggleSidebar />
-        <DropdownMenu>
+        <DropdownUser session={props.session} />
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant={'ghost'}
@@ -62,7 +65,7 @@ export default function Searchbar() {
               <DropdownMenuShortcut>⇧Q</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </nav>
     </header>
   );

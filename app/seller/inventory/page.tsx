@@ -7,14 +7,23 @@ import { Button } from '@/components/ui/button';
 import { LayersIcon } from 'lucide-react';
 import { API_URL } from '@/lib/const';
 import { searchParamtoString } from '@/lib/utils';
-
+import DialogEditAddProduct from '@/containers/seller/inventory/dialog-edit-add-product';
+import customFetchServer from '@/lib/custom-fetch-server';
+import { Suspense } from 'react';
+import { Metadata } from 'next';
+import DialogPreviewProduct from '@/containers/seller/inventory/dialog-preview-product';
+import DialogDeleteProduct from '@/containers/seller/inventory/dialog-delete-product';
+export const metadata: Metadata = {
+  title: 'Inventory | Open Market',
+  description: 'Your Ultimate Marketplace Destination to increaser your sales.',
+};
 const InventoryPage = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string };
 }) => {
   async function getData() {
-    const data = await fetch(
+    const data = await customFetchServer(
       `${API_URL}/inventory?${searchParamtoString(searchParams)}`,
       {
         method: 'GET',
@@ -22,12 +31,12 @@ const InventoryPage = async ({
     );
 
     if (!data?.ok) return data;
-
     const res = await data.json();
     return res;
   }
 
   const data = await getData();
+
   return (
     <LayoutSubmodule
       submoduleName='Inventory'
@@ -42,7 +51,21 @@ const InventoryPage = async ({
         <section className='space-y-4 flex flex-col flex-1 animate overflow-y-auto justify-between'>
           <DataTable columns={columns} data={data?.inventory} />
         </section>
-        <DataTablePagination totalItems={data?.total} />
+        <section>
+          <DataTablePagination totalItems={data?.total} />
+          <Suspense>
+            <DialogEditAddProduct
+              searchParams={searchParams}
+              data={data?.inventory}
+            />
+          </Suspense>
+          <Suspense>
+            <DialogPreviewProduct data={data?.inventory} />
+          </Suspense>
+          <Suspense>
+            <DialogDeleteProduct />
+          </Suspense>
+        </section>
       </div>
     </LayoutSubmodule>
   );

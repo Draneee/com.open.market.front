@@ -1,14 +1,18 @@
 import Sidebar from './Sidebar';
 import Searchbar from './Searchbar';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { AppShell, AppShellContent, AppShellSidebar } from './AppShell';
 import AlertDialogTokenSearchParam from './alert-dialog-token-search-param';
+import { Toaster } from 'sonner';
+import { getSession } from '@/app/actions/home';
 
-const LayoutComponent = ({
+const LayoutComponent = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const session = await getSession();
+  console.log(session);
   return (
     <body className='h-screen'>
       <AppShell>
@@ -16,11 +20,14 @@ const LayoutComponent = ({
           <Sidebar />
         </AppShellSidebar>
         <main className='w-full flex flex-col '>
-          <Searchbar />
+          <Searchbar session={session} />
           <AppShellContent>
             <section className='bg-white h-full container overflow-hidden'>
               {children}
-              <section>{/* <AlertDialogTokenSearchParam /> */}</section>
+              <Suspense>
+                <AlertDialogTokenSearchParam />
+              </Suspense>
+              <Toaster richColors />
             </section>
           </AppShellContent>
         </main>

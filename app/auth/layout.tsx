@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner';
 import { Undo2Icon } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -27,6 +28,7 @@ export default function RootLayout({
               <Undo2Icon className='size-4' /> Go Back
             </Link>
             {children}
+            <Toaster richColors />
           </div>
         </main>
       </body>

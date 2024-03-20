@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useDataTable } from '@/hooks/useDataTable';
 import DialogDeleteProduct from './dialog-delete-product';
 import DialogPreviewProduct from './dialog-preview-product';
@@ -31,9 +31,6 @@ export function DataTable<TData, TValue>({
   });
   return (
     <div>
-      <DialogPreviewProduct data={data} />
-      <DialogDeleteAddProduct data={data} />
-      <DialogDeleteProduct />
       <Table className='relative border-collapse h-12 overflow-y-auto'>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

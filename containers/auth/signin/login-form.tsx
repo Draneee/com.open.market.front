@@ -47,7 +47,7 @@ export const LoginForm = () => {
     });
     toast.success('Login succesfully!');
     form.reset();
-    router.push('/seller/inventory?skip=0&limit=12');
+    router.replace('/seller/inventory?skip=0&limit=12');
   }
 
   return (

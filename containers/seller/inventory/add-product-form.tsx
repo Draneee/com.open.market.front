@@ -1,6 +1,5 @@
 'use client';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -15,18 +14,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import customFetch from '@/lib/custom-fetch-server';
-import { API_URL } from '@/lib/const';
-import customFetchClient from '@/lib/custom-fetch-client';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import {
-  uploadPictureCloudinary,
-  uploadProductToInventory,
-} from '@/lib/data.seller';
-import MoneyInput from '@/components/mask-ui/money-input-form';
+import { uploadProductToInventory } from '@/lib/data.seller';
 import { addProductSchema } from '@/lib/utils.seller';
 import { Inventory } from '@/types';
+import MoneyInput from '@/components/mask-ui/money-input-form';
 
 const AddProductForm = ({
   onOpenChange,

@@ -19,7 +19,7 @@ export const searchParamtoString = (searchParams: { [key: string]: string }) =>
 
 export function LogOut(router: AppRouterInstance) {
   deleteCookieApp();
-  router.replace('/auth/signin');
+  router.push('/auth/signin');
 }
 
 export const copyToClipboard = async (text: string) => {

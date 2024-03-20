@@ -31,6 +31,7 @@ const customFetchServer = async (
 
     const response = await fetch(url, options);
 
+    console.log(response);
     if (!response.ok) throw response;
 
     return response;

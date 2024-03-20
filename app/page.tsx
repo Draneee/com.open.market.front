@@ -24,13 +24,14 @@ export default async function Home({
     searchParams
   );
   const session = await getSession();
-  console.log(initialData);
+
   return (
     <main className='flex flex-col items-center h-screen w-full gap-4'>
       <Navbar session={session} />
       <Hero />
       <section className='flex max-lg:flex-col w-full container gap-4 animate'>
         <DialogProduct />
+
         <FitlersSection session={session} maxPrice={initialData?.maxPrice} />
         <section className='flex-1 space-y-4'>
           <ProductsPosts

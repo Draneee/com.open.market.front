@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -10,56 +10,88 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { CardStackPlusIcon } from '@radix-ui/react-icons';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Inventory } from '@/types';
+import { useRouter } from 'next/navigation';
 import AddProductForm from './add-product-form';
 
-const DialogEditAddProduct = ({ data }: { data?: Inventory[] }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const AddOrEdit = searchParams.has('Add')
+const DialogEditAddProduct = ({
+  searchParams,
+  data,
+}: {
+  searchParams: { [key: string]: string | string };
+  data: any[];
+}) => {
+  const params = new URLSearchParams(searchParams);
+  const AddOrEdit = params.has('Add')
     ? 'Add'
-    : searchParams.has('Edit')
+    : params.has('Edit')
     ? 'Edit'
     : undefined;
 
   if (!AddOrEdit) return;
+  const router = useRouter();
+  const isOpen = params.has(AddOrEdit);
 
-  const isOpen = searchParams.has(AddOrEdit);
-  const params = new URLSearchParams(searchParams);
-  const id = Number(searchParams.get(AddOrEdit));
-  const ItemSelected =
-    AddOrEdit === 'Add' ? undefined : data?.find((item) => item.id === id);
+  const [open, setopen] = React.useState(false);
+  setTimeout(() => {
+    setopen(isOpen);
+  }, 200);
 
   const deleteParam = () => {
     params.delete(AddOrEdit);
     router.push('?' + params.toString());
   };
 
-  return (
-    <Dialog onOpenChange={deleteParam} open={isOpen}>
-      <DialogTrigger asChild>
-        <Button size={'sm'} className='font-mono group'>
-          Add Product
-          <span className='group-hover:w-4 w-0 transition-all group-hover:translate-x-0 -translate-x-10 group-hover:ms-2'>
-            <CardStackPlusIcon className='group-hover:opacity-100 opacity-0 transition-all' />
-          </span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{AddOrEdit} Product</DialogTitle>
-          <DialogDescription>
-            {AddOrEdit === 'Add' ? 'Create New Item' : 'Refine Product Details'}
-          </DialogDescription>
-        </DialogHeader>
+  function LayoutDialog(props: { children: React.ReactNode }) {
+    return (
+      <DialogContentAlert
+        open={open}
+        deleteParam={deleteParam}
+        AddOrEdit={AddOrEdit}
+      >
+        {props.children}
+      </DialogContentAlert>
+    );
+  }
+
+  if (AddOrEdit === 'Add')
+    return (
+      <LayoutDialog>
+        <AddProductForm onOpenChange={deleteParam} />
+      </LayoutDialog>
+    );
+
+  if (AddOrEdit === 'Edit') {
+    const id = parseInt(params.get(AddOrEdit) ?? '');
+    const itemSelected = data?.find((item) => item.id === id);
+    return (
+      <LayoutDialog>
         <AddProductForm
           onOpenChange={deleteParam}
-          itemSelected={ItemSelected}
+          itemSelected={itemSelected}
         />
-      </DialogContent>
-    </Dialog>
-  );
+      </LayoutDialog>
+    );
+  }
 };
+
+function DialogContentAlert(props: any) {
+  return (
+    <Suspense>
+      <Dialog onOpenChange={props.deleteParam} open={props.open}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{props.AddOrEdit} Product</DialogTitle>
+            <DialogDescription>
+              {props.AddOrEdit === 'Add'
+                ? 'Create New Item'
+                : 'Refine Product Details'}
+            </DialogDescription>
+          </DialogHeader>
+          {props.children}
+        </DialogContent>
+      </Dialog>
+    </Suspense>
+  );
+}
 
 export default DialogEditAddProduct;

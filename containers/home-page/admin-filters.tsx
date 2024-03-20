@@ -62,7 +62,7 @@ const AdminFilters = ({ checkbox, setCheckbox }: IProps) => {
                   handleSellers(item.id);
                 }}
               />
-              {item.nickname}
+              {item?.nickname}
             </label>
           ))}
         </section>

@@ -33,13 +33,17 @@ const DropdownUser = ({ session }: { session: any }) => {
           </Avatar>
           <section className='flex flex-col max-sm:hidden'>
             <p className='text-sm font-mono max-w-28 truncate'>
-              {session.nickname}
+              {session?.nickname}
             </p>
           </section>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56'>
         <DropdownMenuLabel>Open Market Demo</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <Link href={'/seller/inventory?skip=0&limit=12'}>
+          <DropdownMenuItem>Dashboard</DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <Link href={'https://github.com/Draneee'} target='_blank'>
           <DropdownMenuItem>GitHub</DropdownMenuItem>

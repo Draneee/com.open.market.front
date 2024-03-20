@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { CardStackPlusIcon } from '@radix-ui/react-icons';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -14,12 +14,18 @@ const AddProductButtonDialog = () => {
     router.push('?' + params.toString());
   };
   return (
-    <Button size={'sm'} className='font-mono group' onClick={switchModalParam}>
-      Add Product
-      <span className='group-hover:w-4 w-0 transition-all group-hover:translate-x-0 -translate-x-10 group-hover:ms-2'>
-        <CardStackPlusIcon className='group-hover:opacity-100 opacity-0 transition-all' />
-      </span>
-    </Button>
+    <Suspense>
+      <Button
+        size={'sm'}
+        className='font-mono group'
+        onClick={switchModalParam}
+      >
+        Add Product
+        <span className='group-hover:w-4 w-0 transition-all group-hover:translate-x-0 -translate-x-10 group-hover:ms-2'>
+          <CardStackPlusIcon className='group-hover:opacity-100 opacity-0 transition-all' />
+        </span>
+      </Button>
+    </Suspense>
   );
 };
 

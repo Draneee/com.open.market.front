@@ -24,7 +24,7 @@ export default async function Home({
     searchParams
   );
   const session = await getSession();
-  console.log(session);
+  console.log(initialData);
   return (
     <main className='flex flex-col items-center h-screen w-full gap-4'>
       <Navbar session={session} />

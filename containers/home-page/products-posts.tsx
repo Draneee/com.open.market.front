@@ -34,7 +34,7 @@ const ProductsPosts = ({
       NUMBER_OF_USERS_TO_FETCH,
       searchParams
     );
-    setTotal(apiUsers.total);
+    setTotal(apiUsers?.total);
     setProducts([...products, ...apiUsers.inventory]);
     setOffset(offset + NUMBER_OF_USERS_TO_FETCH);
   };

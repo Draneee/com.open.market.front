@@ -9,7 +9,7 @@ const customFetchClient = async (
   try {
     const session = getCookieApp();
     const accessToken = session;
-
+    console.log(url);
     const response = await fetch(url, {
       ...options,
       headers: {

@@ -20,9 +20,7 @@ const LayoutComponent = ({
           <AppShellContent>
             <section className='bg-white h-full container overflow-hidden'>
               {children}
-              <section>
-                <AlertDialogTokenSearchParam />
-              </section>
+              <section>{/* <AlertDialogTokenSearchParam /> */}</section>
             </section>
           </AppShellContent>
         </main>

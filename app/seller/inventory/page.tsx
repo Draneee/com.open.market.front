@@ -37,7 +37,7 @@ const InventoryPage = async ({
           <LayersIcon className='size-4' />
         </Button>
       }
-      buttonHeader={<AddProductButtonDialog />}
+      buttonHeader={<AddProductButtonDialog searchParams={searchParams} />}
     >
       <div className='flex flex-1 flex-col gap-2 overflow-y-auto'>
         <section className='space-y-4 flex flex-col flex-1 animate overflow-y-auto justify-between'>

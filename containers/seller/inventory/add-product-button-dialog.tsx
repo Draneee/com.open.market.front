@@ -4,10 +4,13 @@ import { Button } from '@/components/ui/button';
 import { CardStackPlusIcon } from '@radix-ui/react-icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-const AddProductButtonDialog = () => {
+const AddProductButtonDialog = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string };
+}) => {
   const router = useRouter();
-  const serachParams = useSearchParams();
-  const params = new URLSearchParams(serachParams);
+  const params = new URLSearchParams(searchParams);
   const switchModalParam = () => {
     if (params.has('Add')) params.delete('Add');
     else params.append('Add', String(true));

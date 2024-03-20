@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 
 export default function OrderPage() {
   return (

@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { LayersIcon } from 'lucide-react';
 import { API_URL } from '@/lib/const';
 import { searchParamtoString } from '@/lib/utils';
-import customFetchServer from '@/lib/custom-fetch-server';
 
 const InventoryPage = async ({
   searchParams,

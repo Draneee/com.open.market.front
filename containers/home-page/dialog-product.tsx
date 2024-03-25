@@ -17,6 +17,7 @@ import { Inventory } from '@/types';
 import Image from 'next/image';
 import { copyToClipboard } from '@/lib/utils';
 import { toast } from 'sonner';
+import { Skeleton } from '@/components/ui/skeleton';
 interface InventoryWithOwner extends Inventory {
   owner: {
     email: string;
@@ -24,6 +25,7 @@ interface InventoryWithOwner extends Inventory {
 }
 const DialogProduct = () => {
   const [product, setProduct] = React.useState<InventoryWithOwner>();
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
@@ -40,6 +42,7 @@ const DialogProduct = () => {
   React.useEffect(() => {
     if (id) {
       const getProduct = async () => {
+        setLoading(true);
         try {
           const res = await customFetchClient(`${API_URL}/inventory/${id}`, {
             method: 'GET',
@@ -49,6 +52,7 @@ const DialogProduct = () => {
         } catch (err) {
           console.log(err);
         }
+        setLoading(false);
       };
 
       getProduct();
@@ -68,28 +72,48 @@ const DialogProduct = () => {
       <Dialog onOpenChange={deleteParam} open={isOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className='text-2xl'>
-              {product?.productName}{' '}
-              <span className='text-xs text-muted-foreground'>
-                {product?.SKU}
-              </span>
-            </DialogTitle>
+            {loading ? (
+              <div className='flex items-end gap-1'>
+                <Skeleton className='h-8 w-40' />
+                <Skeleton className='h-4 w-20' />
+              </div>
+            ) : (
+              <DialogTitle className='text-2xl'>
+                {product?.productName}{' '}
+                <span className='text-xs text-muted-foreground'>
+                  {product?.SKU}
+                </span>
+              </DialogTitle>
+            )}
+
             <DialogDescription className='space-y-2'>
               <div className='aspect-square relative rounded overflow-hidden'>
-                <Image
-                  className='size-full object-cover object-center'
-                  src={product?.pictureUrl ?? ''}
-                  alt={product?.productName ?? ''}
-                  fill
-                />
+                {loading ? (
+                  <Skeleton className='size-full' />
+                ) : (
+                  <Image
+                    className='size-full object-cover object-center'
+                    src={product?.pictureUrl ?? ''}
+                    alt={product?.productName ?? ''}
+                    fill
+                  />
+                )}
               </div>
               <section>
-                <p className='text-center text-xs leading-3'>
-                  Avaibles: {product?.quantity}
-                </p>
-                <div className='text-xl text-black text-center w-full font-medium'>
-                  $ {product?.price?.toLocaleString()}.00
-                </div>
+                {loading ? (
+                  <Skeleton className='h-3 w-16 mx-auto' />
+                ) : (
+                  <p className='text-center text-xs leading-3'>
+                    Avaibles: {product?.quantity}
+                  </p>
+                )}
+                {loading ? (
+                  <Skeleton className='h-5 w-28 mx-auto mt-1' />
+                ) : (
+                  <div className='text-xl text-black text-center w-full font-medium'>
+                    $ {product?.price?.toLocaleString()}.00
+                  </div>
+                )}
               </section>
               <section className='text-center'>
                 Do yo like this product? Contact with the seller to buy
